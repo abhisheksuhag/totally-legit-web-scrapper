@@ -12,7 +12,7 @@ async function scrapeWiredTech(){
         });
 
         const $ = cheerio.load(data);
-        const articles = [];
+        const articles: { headline : string, link : string}[] = [];
 
         $(".SummaryItemWrapper-ircKXK").each((i, el) => {
             const headline = $(el).find("h3.SummaryItemHedBase-hnYOxl").text().trim();
@@ -29,7 +29,11 @@ async function scrapeWiredTech(){
     });
 
     }catch(err){
-        console.error("Error scraping Wired: ", err.message);
+        if(err instanceof Error ){
+            console.error("Error scraping Wired: ", err.message);
+        }else { 
+            console.error ("Unknown eror scraping wired: ", err);
+        }
     }
 }
 
