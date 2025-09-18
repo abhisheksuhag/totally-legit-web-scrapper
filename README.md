@@ -9,6 +9,11 @@ Web scraping is a technique used to extract data from websites automatically. In
 ## About Cheerio
 The tool uses Cheerio, which is a JavaScript library that helps read and parse HTML code from web pages. It works like jQuery but is designed for use in server-side environments. With Cheerio, the tool can easily find specific parts of a webpage, like article headlines or links.
 
+## About Puppeteer
+For websites that load their content dynamically using JavaScript, the tool uses Puppeteer. Puppeteer controls a headless (invisible) Chrome browser that fully renders pages, including all dynamic content. This makes it possible to scrape websites that don’t provide all their content in the initial HTML, such as those built with React or Angular.
+
+While Puppeteer is more resource-intensive and slower than Cheerio, it is essential for scraping modern JavaScript-heavy websites accurately.
+
 ## Why Specify a User-Agent?
 When the tool requests a webpage, it tells the website who it is by setting a "User-Agent" header. This header makes the request look like it's coming from a regular web browser (like Chrome or Firefox), which helps avoid blocks or restrictions that websites put on automated tools or bots.
 
