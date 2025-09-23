@@ -30,11 +30,25 @@ const sites = [
   }
 }
 ,
+{
+  name: "The Verge",
+  url: "https://www.theverge.com/tech",
+  scraper: async (page: puppeteer.Page): Promise<Article[]> => {
+    return await page.evaluate(() => {
+      const elements = Array.from(document.querySelectorAll('a._1lkmsmo0._1lkmsmo4.-ws-data-preview-element')).slice(0, 10);
+      return elements.map(el => ({
+        headline: el.innerText.trim() || "",
+        link: el.href.startsWith('/') ? `https://www.theverge.com${el.getAttribute('href')}` : el.href
+      }));
+    });
+  }
+}
+
 ]; 
 
 
 async function scrapeMultipleSites(){
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({browser: "chrome", headless: false});
     
     const scrapePromises = sites.map(async (site) => {
     const page = await browser.newPage();
