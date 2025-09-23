@@ -1,4 +1,5 @@
 const { Builder, By, until} = require("selenium-webdriver");
+import * as fs from "fs";
 require("chromedriver");
 
 (async function example(){
@@ -8,6 +9,7 @@ require("chromedriver");
         await driver.sleep(3000);
 
         const articles = await driver.findElements(By.css('.SummaryItemWrapper-ircKXK'));
+        const results: { headline : string, summary: string}[] = [];
         for(let i=0;i<Math.min(10, articles.length); i++){
             const article = articles[i];
             const headlineEl = await article.findElement(By.css('h3.SummaryItemHedBase-hnYOxl'))
@@ -19,8 +21,11 @@ require("chromedriver");
             } catch (e){
                 summary = "(No summary found)";
             }
-            console.log(`\n${i+1}. ${headline}\n ${summary}`);
+            results.push({headline, summary});
         }
+
+        fs.writeFileSync("wired_articles.json", JSON.stringify(results, null , 2), "utf-8");
+        console.log("Data saved to wired_articles.json");
     } finally {
         await driver.quit();
     }
